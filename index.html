@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run a Chainbase AVS Operator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 1rem;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        pre {
+            position: relative;
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Run a Chainbase AVS Operator</h1>
+    <p>This guide will walk you through the process of setting up and running a Chainbase AVS (Actively Validated Service) operator node.</p>
+
+    <h2>Requirements</h2>
+    <h3>Recommended Hardware Specifications</h3>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>vCPUs (10th gen+)</th>
+                <th>Memory</th>
+                <th>Networking Capacity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>General Purpose - large</td>
+                <td>2</td>
+                <td>8 GB</td>
+                <td>5 Mbps</td>
+            </tr>
+            <tr>
+                <td>General Purpose - xl</td>
+                <td>4</td>
+                <td>16 GB</td>
+                <td>25 Mbps</td>
+            </tr>
+            <tr>
+                <td>General Purpose - 4xl</td>
+                <td>16</td>
+                <td>64 GB</td>
+                <td>5 Gbps</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Before you begin, ensure you have the following prerequisites installed:</p>
+    <ul>
+        <li>➕ Docker</li>
+        <li>➕ Docker Compose</li>
+        <li>➕ Linux Environment</li>
+        <li>➕ Go</li>
+    </ul>
+
+    <h2>Installation Process</h2>
+    <h3>Chainbase AVS Setup</h3>
+    <p>Clone the Chainbase AVS setup repository:</p>
+    <pre>
+        <button onclick="copyToClipboard('clone')">Copy</button>
+        <code id="clone">git clone https://github.com/chainbase-labs/chainbase-avs-setup</code>
+    </pre>
+
+    <p>Run a Chainbase AVS operator node on <strong>mainnet</strong> (invited and whitelisted):</p>
+    <pre>
+        <button onclick="copyToClipboard('mainnet')">Copy</button>
+        <code id="mainnet">cd chainbase-avs-setup/mainnet</code>
+    </pre>
+
+    <p>Or run on <strong>testnet</strong> (no restrictions):</p>
+    <pre>
+        <button onclick="copyToClipboard('testnet')">Copy</button>
+        <code id="testnet">cd chainbase-avs-setup/holesky</code>
+    </pre>
+
+    <p>Set up the environment file:</p>
+    <pre>
+        <button onclick="copyToClipboard('env')">Copy</button>
+        <code id="env">cp .env.example .env</code>
+    </pre>
+
+    <p>Configure all fields in the <code>.env</code> file with your specific information:</p>
+    <pre>
+        <code>
+NODE_ECDSA_KEY_FILE_PATH=/your/ecdsa/key/path
+NODE_BLS_KEY_FILE_PATH=/your/bls/key/path
+OPERATOR_ECDSA_KEY_PASSWORD=yourECDSAKeyPassword
+OPERATOR_BLS_KEY_PASSWORD=yourBlsKeyPassword
+OPERATOR_ADDRESS=yourECDSAKeyAddress
+NODE_SOCKET=yourNodeSocket
+OPERATOR_NAME=yourOperatorName
+        </code>
+    </pre>
+
+    <h2>Operating the Chainbase AVS</h2>
+    <h3>Register as an Operator</h3>
+    <pre>
+        <button onclick="copyToClipboard('register')">Copy</button>
+        <code id="register">./chainbase-avs.sh register</code>
+    </pre>
+
+    <h3>Run Node</h3>
+    <pre>
+        <button onclick="copyToClipboard('run')">Copy</button>
+        <code id="run">./chainbase-avs.sh run</code>
+    </pre>
+
+    <h3>Test Node</h3>
+    <pre>
+        <button onclick="copyToClipboard('test')">Copy</button>
+        <code id="test">./chainbase-avs.sh test</code>
+    </pre>
+
+    <h3>Monitor Logs</h3>
+    <p>View container logs using any of these commands:</p>
+    <pre>
+        <code>
+docker compose logs -f
+docker compose logs -f &lt;container_name&gt;
+docker logs -f &lt;container_id&gt;
+        </code>
+    </pre>
+
+    <h2>Dashboard</h2>
+    <p>You can visit <code>&lt;your_server_public_ip&gt;:3010</code> in your browser to confirm the status of your node.</p>
+
+    <script>
+        function copyToClipboard(id) {
+            const code = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Code copied to clipboard!");
+            });
+        }
+    </script>
+</body>
+</html>
